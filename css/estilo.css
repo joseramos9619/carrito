@@ -135,7 +135,7 @@ header {
   font-size: 12px;
   cursor: pointer;
 }
-}
+
 .menu:hover .carrito {
   display: flex;
   cursor: default;
