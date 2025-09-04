@@ -11,7 +11,10 @@
     <header>
       <h1>WEB STORE</h1>
       <div class="menu">
-        <img src="img/store.jpg" alt="icono" />
+        <div class="cart-icon-container">
+          <img src="img/store.jpg" alt="icono" />
+          <span id="cart-count" class="cart-count">0</span>
+        </div>
         <div class="carrito">
           <table>
             <thead>
@@ -19,11 +22,16 @@
               <th>Nombre</th>
               <th>Precio</th>
               <th>Cantidad</th>
-              <th>&nbsp;</th>
+              <th>Acción</th>
             </thead>
             <tbody id="productos"></tbody>
           </table>
-          <button id="limpiar">Vaciar</button>
+          <div class="cart-total">
+            <strong>Total: $<span id="total">0</span></strong>
+          </div>
+          <div class="cart-actions">
+            <button id="limpiar">Vaciar</button>
+          </div>
         </div>
       </div>
     </header>
