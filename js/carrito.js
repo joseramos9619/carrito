@@ -1,35 +1,79 @@
-// Carrito de compras mejorado
+// Carrito de compras mejorado (productos cargados desde data/products.json)
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 const tabla = document.querySelector("#productos");
 const vaciar = document.querySelector("#limpiar");
-const botones = document.querySelectorAll(".tarjeta > button");
+const filas = document.querySelector(".filas");
 const cartCount = document.querySelector("#cart-count");
 const totalElement = document.querySelector("#total");
 
-// Inicializar carrito al cargar la página
+let productsById = {};
+
+// Inicializar carrito y cargar productos al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
   actualizarCarrito();
+  loadProducts();
 });
 
-// Event listeners para botones de agregar
-botones.forEach((boton) => {
-  boton.addEventListener("click", (evento) => {
-    evento.preventDefault();
+// Carga el JSON de productos y renderiza las tarjetas
+const loadProducts = async () => {
+  try {
+    const res = await fetch('data/products.json');
+    if (!res.ok) throw new Error('No se pudo cargar data/products.json');
+    const products = await res.json();
+    renderProducts(products);
+  } catch (err) {
+    console.error('Error cargando productos:', err);
+  }
+};
 
-    const tarjeta = boton.parentElement;
-    const id = boton.getAttribute("data-id");
+// Renderiza tarjetas conservando la estructura esperada por la app
+const renderProducts = (products) => {
+  filas.innerHTML = '';
+  products.forEach(p => {
+    productsById[p.id] = p;
 
-    const producto = {
-      id: id,
-      imagen: tarjeta.querySelector("img").getAttribute("src"),
-      nombre: tarjeta.querySelector("h3").textContent,
-      precio: parsePrice(tarjeta.querySelector("div span").textContent),
-      cantidad: 1,
-    };
+    const tarjeta = document.createElement('div');
+    tarjeta.className = 'tarjeta';
+    tarjeta.innerHTML = `
+      <img class="prod" src="${p.imagen}" alt="${p.nombre}" />
+      <h3>${p.nombre}</h3>
+      <small></small>
+      <div>
+        <div>
+          <img src="img/estar.png" alt="" />
+          <img src="img/estar.png" alt="" />
+          <img src="img/estar.png" alt="" />
+          <img src="img/estar.png" alt="" />
+          <img src="img/estar.png" alt="" />
+        </div>
+        <span>$${p.precio.toLocaleString('es-CO')}</span>
+      </div>
+      <button data-id="${p.id}">Agregar</button>
+    `;
 
-    agregarAlCarrito(producto);
+    filas.appendChild(tarjeta);
   });
+};
+
+// Delegación de eventos para botones "Agregar" en el contenedor de tarjetas
+filas.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-id]');
+  if (!btn) return;
+  e.preventDefault();
+  const id = btn.dataset.id;
+  const p = productsById[id];
+  if (!p) return;
+
+  const producto = {
+    id: id,
+    imagen: p.imagen,
+    nombre: p.nombre,
+    precio: p.precio,
+    cantidad: 1,
+  };
+
+  agregarAlCarrito(producto);
 });
 
 // Función para agregar producto al carrito
@@ -136,13 +180,6 @@ const actualizarCarrito = () => {
     tabla.appendChild(fila);
   });
 
-  // Añadir listeners por delegación en el tbody `tabla` (maneja + / - / eliminar)
-  // (evita exponer funciones globales y mantiene el DOM limpio)
-  // Nota: removemos listeners previos para evitar duplicados si fuese necesario.
-  // No usamos querySelectorAll para onclick aquí porque los botones ya no lo usan.
-  // El listener se asegura de leer el `data-id` del botón clicado.
-  // (Si ya existiera un listener, no se añade otro porque este bloque sólo configura
-  // uno por render: usamos captura única mediante un flag simple.)
   if (!tabla._hasCartListener) {
     tabla.addEventListener('click', (e) => {
       const btn = e.target.closest('button');

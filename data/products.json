@@ -1,0 +1,8 @@
+[
+  {"id":"1","imagen":"img/1.webp","nombre":"tarjeta de red usb","precio":40000},
+  {"id":"2","imagen":"img/2.webp","nombre":"router","precio":80000},
+  {"id":"3","imagen":"img/3.webp","nombre":"swich","precio":75000},
+  {"id":"4","imagen":"img/4.webp","nombre":"comoda","precio":33000},
+  {"id":"5","imagen":"img/5.webp","nombre":"tinta","precio":23000},
+  {"id":"6","imagen":"img/6.webp","nombre":"zapato","precio":83000}
+]
