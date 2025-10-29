@@ -7,8 +7,6 @@ const botones = document.querySelectorAll(".tarjeta > button");
 const cartCount = document.querySelector("#cart-count");
 const totalElement = document.querySelector("#total");
 
-
-
 // Inicializar carrito al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
   actualizarCarrito();
@@ -115,9 +113,10 @@ const actualizarCarrito = () => {
   const total = carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
   totalElement.textContent = total.toLocaleString();
 
-  // Agregar productos a la tabla (sin handlers inline)
+  // Agregar productos a la tabla (usando data-id en la fila y botones con clases)
   carrito.forEach((producto) => {
     const fila = document.createElement("tr");
+    // Añadimos el id al dataset de la fila para que los listeners lo encuentren
     fila.dataset.id = producto.id;
     fila.innerHTML = `
             <td><img src="${producto.imagen}" alt="${producto.nombre}"/></td>
@@ -137,31 +136,39 @@ const actualizarCarrito = () => {
     tabla.appendChild(fila);
   });
 
-  // Reemplazar handlers inline por listeners y evitar exponer funciones en `window`.
-  // Encontramos botones con atributo onclick (generados por el template) y los
-  // convertimos a listeners usando el id disponible en `data-id` o en la fila.
-  tabla.querySelectorAll('button[onclick]').forEach((btn) => {
-    const txt = btn.textContent.trim();
-    const id = btn.dataset.id || btn.closest('tr')?.dataset.id;
-    // eliminar el atributo inline para evitar dobles ejecuciones
-    btn.removeAttribute('onclick');
-    if (!id) return;
-    if (txt === '×') {
-      btn.addEventListener('click', () => eliminarDelCarrito(id));
-    } else if (txt === '-') {
-      btn.addEventListener('click', () => {
-        const prod = carrito.find((i) => i.id === id);
-        const newQty = prod ? prod.cantidad - 1 : 0;
-        cambiarCantidad(id, newQty);
-      });
-    } else if (txt === '+') {
-      btn.addEventListener('click', () => {
-        const prod = carrito.find((i) => i.id === id);
-        const newQty = prod ? prod.cantidad + 1 : 1;
-        cambiarCantidad(id, newQty);
-      });
-    }
-  });
+  // Añadir listeners por delegación en el tbody `tabla` (maneja + / - / eliminar)
+  // (evita exponer funciones globales y mantiene el DOM limpio)
+  // Nota: removemos listeners previos para evitar duplicados si fuese necesario.
+  // No usamos querySelectorAll para onclick aquí porque los botones ya no lo usan.
+  // El listener se asegura de leer el `data-id` del botón clicado.
+  // (Si ya existiera un listener, no se añade otro porque este bloque sólo configura
+  // uno por render: usamos captura única mediante un flag simple.)
+  if (!tabla._hasCartListener) {
+    tabla.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const id = btn.dataset.id || btn.closest('tr')?.dataset.id;
+      if (!id) return;
+
+      if (btn.classList.contains('quantity-decrease')) {
+        const prod = carrito.find((p) => p.id === id);
+        cambiarCantidad(id, prod ? prod.cantidad - 1 : 0);
+        return;
+      }
+
+      if (btn.classList.contains('quantity-increase')) {
+        const prod = carrito.find((p) => p.id === id);
+        cambiarCantidad(id, prod ? prod.cantidad + 1 : 1);
+        return;
+      }
+
+      if (btn.classList.contains('remove-item')) {
+        eliminarDelCarrito(id);
+        return;
+      }
+    });
+    tabla._hasCartListener = true;
+  }
 };
 
 // Función para guardar carrito en localStorage
