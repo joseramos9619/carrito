@@ -8,21 +8,58 @@
     <link rel="stylesheet" href="css/estilo.css" />
   </head>
   <body>
-    <header>
-      <h1>WEB STORE</h1>
-      <div class="menu">
+    <aside class="sidebar" aria-hidden="true">
+      <div class="sidebar-inner">
+        <button id="sidebar-close" class="sidebar-close" aria-label="Cerrar menú">×</button>
+        <h2 class="brand">Web Store</h2>
+        <nav>
+          <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Productos</a></li>
+            <li><a href="#">Ofertas</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </nav>
+        <footer class="sidebar-footer">&copy; 2025 Web Store</footer>
+      </div>
+    </aside>
+
+    <div id="overlay" class="overlay" hidden></div>
+
+    <header class="header">
+      <button id="hamburger" class="hamburger" aria-label="Abrir menú">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <div class="header-brand">WEB STORE</div>
+      <div class="header-actions">
         <div class="cart-icon-container">
           <img src="img/store.jpg" alt="icono" />
           <span id="cart-count" class="cart-count">0</span>
         </div>
-        <div class="carrito">
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <section class="catalog">
+          <h2>Productos</h2>
+          <!-- Las tarjetas de producto se renderizan dinámicamente desde data/products.json -->
+          <div class="filas" aria-live="polite"></div>
+        </section>
+
+        <aside class="mini-cart" aria-label="Carrito">
+          <h3>Carrito</h3>
           <table>
             <thead>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
-              <th>Acción</th>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cant.</th>
+                <th>Acción</th>
+              </tr>
             </thead>
             <tbody id="productos"></tbody>
           </table>
@@ -30,112 +67,12 @@
             <strong>Total: $<span id="total">0</span></strong>
           </div>
           <div class="cart-actions">
-            <button id="limpiar">Vaciar</button>
+            <button id="limpiar" class="btn btn-ghost">Vaciar</button>
           </div>
-        </div>
-      </div>
-    </header>
-    <main>
-      <h2>Productos</h2>
-      <div class="filas">
-        <div class="tarjeta">
-          <img class="prod" src="img/1.webp" alt="" />
-          <h3>tarjeta de red usb</h3>
-          <small></small>
-          <div>
-            <div>
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-            </div>
-            <span>$40.000</span>
-          </div>
-          <button data-id="1">Agregar</button>
-        </div>
-        <div class="tarjeta">
-          <img class="prod" src="img/2.webp" alt="" />
-          <h3>router</h3>
-          <small></small>
-          <div>
-            <div>
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-            </div>
-            <span>$80.000</span>
-          </div>
-          <button data-id="2">Agregar</button>
-        </div>
-        <div class="tarjeta">
-          <img class="prod" src="img/3.webp" alt="" />
-          <h3>swich</h3>
-          <small></small>
-          <div>
-            <div>
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-            </div>
-            <span>$75.000</span>
-          </div>
-          <button data-id="3">Agregar</button>
-        </div>
-        <div class="tarjeta">
-          <img class="prod" src="img/4.webp" alt="" />
-          <h3>comoda</h3>
-          <small></small>
-          <div>
-            <div>
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-            </div>
-            <span>$33.000</span>
-          </div>
-          <button data-id="4">Agregar</button>
-        </div>
-        <div class="tarjeta">
-          <img class="prod" src="img/5.webp" alt="" />
-          <h3>tinta</h3>
-          <small></small>
-          <div>
-            <div>
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-            </div>
-            <span>$23.000</span>
-          </div>
-          <button data-id="5">Agregar</button>
-        </div>
-        <div class="tarjeta">
-          <img class="prod" src="img/6.webp" alt="" />
-          <h3>zapato</h3>
-          <small></small>
-          <div>
-            <div>
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-              <img src="img/estar.png" alt="" />
-            </div>
-            <span>$83.000</span>
-          </div>
-          <button data-id="6">Agregar</button>
-        </div>
+        </aside>
       </div>
     </main>
+
+    <script src="js/carrito.js"></script>
   </body>
-  <script src="js/carrito.js"></script>
 </html>
