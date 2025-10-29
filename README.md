@@ -14,24 +14,6 @@
 - **Eliminación Selectiva**: Remover productos individuales o vaciar todo el carrito
 - **Interfaz Responsiva**: Diseño adaptable a diferentes tamaños de pantalla
 
-### 🎯 Qué Puedes Hacer con Este Proyecto
-
-#### **Para Aprender**
-- Manipulación del DOM con JavaScript puro
-- Almacenamiento local con localStorage
-- Diseño web responsivo con CSS Grid y Flexbox
-- Gestión de eventos y estados en aplicaciones web
-- Conceptos básicos de e-commerce
-
-#### **Para Expandir**
-- Agregar más productos y categorías
-- Implementar búsqueda y filtros
-- Crear proceso de checkout
-- Añadir autenticación de usuarios
-- Integrar pasarelas de pago
-- Desarrollar panel de administración
-- Crear sistema de reseñas y ratings
-
 ## 🚀 Cómo Usar
 1. Abrir `index.html` en un navegador web
 2. Explorar los productos disponibles

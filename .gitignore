@@ -1,0 +1,46 @@
+# .gitignore para el proyecto `carrito`
+# Ignorar archivos de dependencias, caches, IDEs, y archivos locales temporales
+
+### Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Build / cache
+dist/
+build/
+.parcel-cache/
+.cache/
+
+### IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+### OS
+.DS_Store
+Thumbs.db
+
+### Logs and env
+*.log
+.env
+.env.local
+.env.*.local
+
+### Python (por si acaso)
+__pycache__/
+*.py[cod]
+venv/
+
+### Otros
+.history/
+coverage/
+tmp/
+temp/
+*.tmp
+.github/
+# Fin
