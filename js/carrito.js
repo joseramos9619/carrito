@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (hamburger) {
     hamburger.addEventListener('click', () => {
-      document.body.classList.toggle('sidebar-open');
-      if (!overlay.hasAttribute('hidden')) overlay.removeAttribute('hidden');
-      else overlay.removeAttribute('hidden');
+      const open = document.body.classList.toggle('sidebar-open');
+      if (open) overlay.removeAttribute('hidden');
+      else overlay.setAttribute('hidden', '');
     });
   }
 
