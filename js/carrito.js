@@ -13,6 +13,33 @@ let productsById = {};
 document.addEventListener("DOMContentLoaded", () => {
   actualizarCarrito();
   loadProducts();
+
+  // Sidebar / hamburger
+  const hamburger = document.getElementById('hamburger');
+  const overlay = document.getElementById('overlay');
+  const sidebarClose = document.getElementById('sidebar-close');
+
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      const open = document.body.classList.toggle('sidebar-open');
+      if (open) overlay.removeAttribute('hidden');
+      else overlay.setAttribute('hidden', '');
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      document.body.classList.remove('sidebar-open');
+      overlay.setAttribute('hidden', '');
+    });
+  }
+
+  if (sidebarClose) {
+    sidebarClose.addEventListener('click', () => {
+      document.body.classList.remove('sidebar-open');
+      overlay.setAttribute('hidden', '');
+    });
+  }
 });
 
 // Carga el JSON de productos y renderiza las tarjetas
@@ -39,16 +66,7 @@ const renderProducts = (products) => {
       <img class="prod" src="${p.imagen}" alt="${p.nombre}" />
       <h3>${p.nombre}</h3>
       <small></small>
-      <div>
-        <div>
-          <img src="img/estar.png" alt="" />
-          <img src="img/estar.png" alt="" />
-          <img src="img/estar.png" alt="" />
-          <img src="img/estar.png" alt="" />
-          <img src="img/estar.png" alt="" />
-        </div>
-        <span>$${p.precio.toLocaleString('es-CO')}</span>
-      </div>
+      <div class="price">$${p.precio.toLocaleString('es-CO')}</div>
       <button data-id="${p.id}">Agregar</button>
     `;
 
